@@ -13,10 +13,25 @@ from datasets import (
     load_jooken_instances,
     generate_jooken_instance,
     generate_pisinger_gen2,
+    Instance,
 )
 
 SHARED_SIZES = [5, 8, 10, 12, 15, 18, 20]
 LARGE_SIZES = [50, 100, 200, 300, 500, 750, 1000]
+
+EDGE_CASES = [
+    ("n1_cap0", [5], [10], 0, "capacity=0"),
+    ("n1_exact", [5], [10], 5, "capacity equals weight"),
+    ("cap_less_than_min", [5, 6, 7], [10, 11, 12], 4, "capacity < min weight"),
+    ("cap_equals_sum", [5, 6, 7], [10, 11, 12], 18, "capacity = sum weights"),
+    ("many_equal_items", [1, 1, 1, 1], [1, 1, 1, 1], 2, "multiple optimal solutions"),
+    ("greedy_failure_classic", [10, 20, 30], [60, 100, 120], 50, "greedy suboptimal"),
+]
+
+# Edge-case coverage by dataset:
+# - EDGE_CASES: tiny n, tiny capacity, exact-fit, capacity=sum(weights), greedy failure.
+# - kplib: correlation families (uncorrelated/weakly/strongly) at moderate n and capacities.
+# - Jooken: hard instances with large n and very large capacities (stress DP).
 
 BF_MAX_SECONDS_DEFAULT = 300
 DP_MAX_CAPACITY_DEFAULT = 2_000_000
@@ -78,6 +93,22 @@ def _format_eta(eta_seconds):
     if eta_seconds is None:
         return "n/a"
     return f"{eta_seconds:.1f}s"
+
+
+def build_edge_case_instances():
+    instances = []
+    for name, weights, values, cap, desc in EDGE_CASES:
+        instances.append(
+            Instance(
+                name=f"edge/{name}",
+                weights=weights,
+                values=values,
+                capacity=cap,
+                source="edge",
+                meta={"desc": desc},
+            )
+        )
+    return instances
 
 
 def run_shared_benchmarks(bf_max_seconds=BF_MAX_SECONDS_DEFAULT, allow_bf=True):
@@ -226,6 +257,19 @@ def run_dataset_benchmarks(
     return results
 
 
+def run_edge_case_benchmarks(bf_max_seconds=BF_MAX_SECONDS_DEFAULT, allow_bf=True, dp_max_capacity=DP_MAX_CAPACITY_DEFAULT):
+    instances = build_edge_case_instances()
+    print("Running edge-case benchmarks (tiny n / tiny capacity)...")
+    results = run_dataset_benchmarks(
+        instances,
+        bf_max_seconds=bf_max_seconds,
+        allow_bf=allow_bf,
+        dp_max_capacity=dp_max_capacity,
+    )
+    print_dataset_table(results, include_bruteforce=allow_bf)
+    return results
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description="0/1 Knapsack benchmark runner")
     parser.add_argument("--source", choices=["synthetic", "kplib", "jooken", "pisinger", "all"], default="synthetic")
@@ -272,6 +316,11 @@ def main():
     print_theory_table()
 
     if args.source == "synthetic":
+        run_edge_case_benchmarks(
+            bf_max_seconds=args.bf_max_seconds,
+            allow_bf=allow_bf,
+            dp_max_capacity=dp_max_capacity,
+        )
         print("Running shared benchmarks (Brute Force + DP + Greedy)...")
         shared = run_shared_benchmarks(bf_max_seconds=args.bf_max_seconds, allow_bf=allow_bf)
         print_shared_table(shared)
