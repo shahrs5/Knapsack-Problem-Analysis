@@ -1,3 +1,5 @@
+import csv
+from pathlib import Path
 import random
 import time
 
@@ -39,6 +41,18 @@ def _fmt_time(seconds):
     return f"{seconds:>8.4f}  s"
 
 
+def _fmt_optional_time(seconds):
+    if seconds is None:
+        return f"{'-':>8}"
+    return _fmt_time(seconds)
+
+
+def _fmt_optional_value(value, width):
+    if value is None:
+        return f"{'-':>{width}}"
+    return f"{value:>{width}}"
+
+
 def print_theory_table():
     sep = "=" * 74
     print(f"\n{sep}")
@@ -69,9 +83,9 @@ def print_shared_table(results):
     print("-" * 90)
     for r in results:
         ratio_str = f"YES" if r['gr_optimal'] else f"NO  ({r['gr_ratio']:.1%})"
-        print(f"{r['n']:>4}  {_fmt_time(r['bf_time']):>12}  {_fmt_time(r['dp_time']):>12}  "
-              f"{_fmt_time(r['gr_time']):>12}  {r['bf_val']:>7}  {r['dp_val']:>7}  "
-              f"{r['gr_val']:>10}  {ratio_str}")
+        print(f"{r['n']:>4}  {_fmt_optional_time(r['bf_time']):>12}  {_fmt_time(r['dp_time']):>12}  "
+          f"{_fmt_time(r['gr_time']):>12}  {_fmt_optional_value(r['bf_val'], 7)}  {r['dp_val']:>7}  "
+          f"{r['gr_val']:>10}  {ratio_str}")
     print()
 
 
@@ -94,7 +108,7 @@ def print_summary(shared, large):
     print("ANALYSIS SUMMARY")
     print("-" * 60)
 
-    bf_times = [(r['n'], r['bf_time']) for r in shared if r['bf_time'] > 0]
+    bf_times = [(r['n'], r['bf_time']) for r in shared if r['bf_time'] is not None and r['bf_time'] > 0]
     if len(bf_times) >= 2:
         ratios = []
         for i in range(1, len(bf_times)):
@@ -133,3 +147,87 @@ def print_summary(shared, large):
     print("    Use Greedy when speed matters and near-optimal is acceptable.")
     print("    Brute Force is only feasible for n <= ~20.")
     print()
+
+
+def print_dataset_table(results, include_bruteforce=True):
+    print("\nBENCHMARK — DATASET INSTANCES")
+    print("-" * 110)
+    if include_bruteforce:
+        header = (
+            f"{'Instance':<36}  {'n':>5}  {'Cap':>8}  {'BF Time':>12}  "
+            f"{'DP Time':>12}  {'Greedy Time':>12}  {'Greedy Ratio':>13}"
+        )
+    else:
+        header = (
+            f"{'Instance':<36}  {'n':>5}  {'Cap':>8}  {'DP Time':>12}  "
+            f"{'Greedy Time':>12}  {'Greedy Ratio':>13}"
+        )
+    print(header)
+    print("-" * 110)
+    for r in results:
+        name = r['name']
+        if len(name) > 36:
+            name = "..." + name[-33:]
+        ratio = r['gr_ratio']
+        ratio_str = f"{ratio:>12.1%}" if ratio is not None else f"{'-':>12}"
+        if include_bruteforce:
+            print(
+                f"{name:<36}  {r['n']:>5}  {r['capacity']:>8}  "
+                f"{_fmt_optional_time(r['bf_time']):>12}  {_fmt_optional_time(r['dp_time']):>12}  "
+                f"{_fmt_optional_time(r['gr_time']):>12}  {ratio_str}"
+            )
+        else:
+            print(
+                f"{name:<36}  {r['n']:>5}  {r['capacity']:>8}  "
+                f"{_fmt_optional_time(r['dp_time']):>12}  {_fmt_optional_time(r['gr_time']):>12}  {ratio_str}"
+            )
+    print()
+
+
+def _csv_value(value):
+    if value is None:
+        return ""
+    return value
+
+
+def write_dataset_csv(path, results, source_label=None, append=False):
+    if not results:
+        return
+
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    write_header = not path.exists() or not append
+
+    fieldnames = [
+        "source",
+        "name",
+        "n",
+        "capacity",
+        "bf_time",
+        "dp_time",
+        "gr_time",
+        "bf_val",
+        "dp_val",
+        "gr_val",
+        "gr_ratio",
+    ]
+
+    mode = "a" if append else "w"
+    with path.open(mode, newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        if write_header:
+            writer.writeheader()
+        for row in results:
+            writer.writerow({
+                "source": source_label or row.get("source", ""),
+                "name": row.get("name", ""),
+                "n": row.get("n", ""),
+                "capacity": row.get("capacity", ""),
+                "bf_time": _csv_value(row.get("bf_time")),
+                "dp_time": _csv_value(row.get("dp_time")),
+                "gr_time": _csv_value(row.get("gr_time")),
+                "bf_val": _csv_value(row.get("bf_val")),
+                "dp_val": _csv_value(row.get("dp_val")),
+                "gr_val": _csv_value(row.get("gr_val")),
+                "gr_ratio": _csv_value(row.get("gr_ratio")),
+            })
