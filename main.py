@@ -33,9 +33,8 @@ EDGE_CASES = [
 # - kplib: correlation families (uncorrelated/weakly/strongly) at moderate n and capacities.
 # - Jooken: hard instances with large n and very large capacities (stress DP).
 
-BF_MAX_SECONDS_DEFAULT = 300
+BF_MAX_SECONDS_DEFAULT = 9000000000000000000
 DP_MAX_CAPACITY_DEFAULT = 2_000_000
-BF_HARD_N_LIMIT = 28
 
 
 def _parse_int_list(text):
@@ -70,12 +69,10 @@ def _normalize_capacity_limit(limit):
     return limit
 
 
-def _estimate_bf_seconds(n, scale_samples, hard_n_limit=BF_HARD_N_LIMIT):
+def _estimate_bf_seconds(n, scale_samples):
     if scale_samples:
         scale = sum(scale_samples) / len(scale_samples)
         return scale * (2.0 ** n)
-    if n >= hard_n_limit:
-        return float("inf")
     return None
 
 
@@ -145,6 +142,7 @@ def run_shared_benchmarks(bf_max_seconds=BF_MAX_SECONDS_DEFAULT, allow_bf=True):
 
         results.append({
             'n': n,
+            'capacity': cap,
             'bf_time': bf_time,
             'dp_time': dp_time,
             'gr_time': gr_time,
@@ -157,11 +155,12 @@ def run_shared_benchmarks(bf_max_seconds=BF_MAX_SECONDS_DEFAULT, allow_bf=True):
     return results
 
 
-def run_large_benchmarks():
+def run_large_benchmarks(bf_max_seconds=BF_MAX_SECONDS_DEFAULT, allow_bf=True):
     results = []
     total = len(LARGE_SIZES)
     start_time = time.time()
     durations = []
+    bf_scale_samples = []
     for i, n in enumerate(LARGE_SIZES):
         if i > 0:
             remaining = total - i
@@ -169,6 +168,19 @@ def run_large_benchmarks():
             print(f"  [Large]  Starting n={n:<4} ({i+1}/{total}) | ETA: {_format_eta(eta)}")
         item_start = time.time()
         w, v, cap = generate_test_case(n)
+
+        bf_val = None
+        bf_time = None
+        if allow_bf:
+            estimate = _estimate_bf_seconds(n, bf_scale_samples)
+            if estimate is None:
+                print(f"  [Large]  Skipping brute force at n={n} (no BF calibration yet)")
+            elif estimate > bf_max_seconds:
+                print(f"  [Large]  Skipping brute force at n={n} (ETA > {bf_max_seconds}s)")
+            else:
+                bf_val, bf_time = time_algorithm(knapsack_brute_force, w, v, cap)
+                bf_scale_samples.append(bf_time / (2.0 ** n))
+
         dp_val, dp_time = time_algorithm(knapsack_dp, w, v, cap)
         gr_val, gr_time = time_algorithm(knapsack_greedy, w, v, cap)
 
@@ -179,13 +191,32 @@ def run_large_benchmarks():
 
         results.append({
             'n': n,
+            'capacity': cap,
+            'bf_time': bf_time,
             'dp_time': dp_time,
             'gr_time': gr_time,
+            'bf_val': bf_val,
             'dp_val': dp_val,
             'gr_val': gr_val,
             'gr_ratio': gr_val / dp_val if dp_val > 0 else 1.0,
         })
     return results
+
+
+def _to_dataset_row(result, name, source_label):
+    return {
+        'source': source_label,
+        'name': name,
+        'n': result.get('n'),
+        'capacity': result.get('capacity'),
+        'bf_time': result.get('bf_time'),
+        'dp_time': result.get('dp_time'),
+        'gr_time': result.get('gr_time'),
+        'bf_val': result.get('bf_val'),
+        'dp_val': result.get('dp_val'),
+        'gr_val': result.get('gr_val'),
+        'gr_ratio': result.get('gr_ratio'),
+    }
 
 
 def run_dataset_benchmarks(
@@ -316,7 +347,7 @@ def main():
     print_theory_table()
 
     if args.source == "synthetic":
-        run_edge_case_benchmarks(
+        edge_results = run_edge_case_benchmarks(
             bf_max_seconds=args.bf_max_seconds,
             allow_bf=allow_bf,
             dp_max_capacity=dp_max_capacity,
@@ -325,11 +356,27 @@ def main():
         shared = run_shared_benchmarks(bf_max_seconds=args.bf_max_seconds, allow_bf=allow_bf)
         print_shared_table(shared)
 
-        print("Running large-input benchmarks (DP + Greedy)...")
-        large = run_large_benchmarks()
+        print("Running large-input benchmarks...")
+        large = run_large_benchmarks(bf_max_seconds=args.bf_max_seconds, allow_bf=allow_bf)
         print_large_table(large)
 
         print_summary(shared, large)
+
+        if output_csv:
+            synthetic_rows = []
+            synthetic_rows.extend(
+                _to_dataset_row(r, f"synthetic/shared_n{r['n']}", "synthetic-shared")
+                for r in shared
+            )
+            synthetic_rows.extend(
+                _to_dataset_row(r, f"synthetic/large_n{r['n']}", "synthetic-large")
+                for r in large
+            )
+            synthetic_rows.extend(
+                _to_dataset_row(r, r['name'], "synthetic-edge")
+                for r in edge_results
+            )
+            write_dataset_csv(output_csv, synthetic_rows, append=True)
         return
 
     if args.source in ("kplib", "all"):

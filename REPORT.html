@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>REPORT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="results/pdf_style.css" />
+</head>
+<body>
+<h1
+id="comparative-empirical-analysis-of-exact-and-heuristic-algorithms-for-the-01-knapsack-problem">Comparative
+Empirical Analysis of Exact and Heuristic Algorithms for the 0/1
+Knapsack Problem</h1>
+<div
+style="text-align: center; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 9.5pt; color: #555555; margin-top: -5px; margin-bottom: 5px;">
+<p><strong>Course:</strong> CSE 401 - Design and Analysis of Algorithms
+ •  <strong>Institution:</strong> Institute of Business Administration
+(IBA), Karachi</p>
+</div>
+<h3 class="group-members">
+<strong>Saad Inam</strong> (ERP: 29068)  •  <strong>Shaheer
+Shahid</strong> (ERP: 29053)  •  <strong>Hassan Jabbar</strong> (ERP:
+29060)
+</h3>
+<hr />
+<h2 id="abstract">Abstract</h2>
+<p>The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">0/1</annotation></semantics></math>
+Knapsack Problem is a classic NP-hard combinatorial optimization problem
+with applications in resource allocation, portfolio selection, and
+cryptography. The problem is also conceptually linked to practical sales
+operations, such as the Traveling Salesperson Problem (TSP); before a
+salesperson departs on their tour, they must solve a knapsack problem to
+figure out what items or goods to carry, because a salesperson without
+their goods is not a good salesperson. This report presents a
+comparative empirical analysis of three core algorithms: <strong>Brute
+Force (Exhaustive Recursion)</strong>, <strong>Dynamic Programming
+(Bottom-up Tabulation)</strong>, and a <strong>Greedy Approximation
+Heuristic (Value-to-Weight Ratio Sort)</strong>. We evaluate these
+algorithms across synthetic datasets, standard benchmark datasets from
+the <code>kplib</code> library, and large-scale hard benchmarks. Our
+findings confirm that Brute Force exhibits exponential time growth
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>,
+becoming intractable for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n &gt; 20</annotation></semantics></math>.
+Dynamic Programming guarantees optimal solutions in pseudo-polynomial
+time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(nW)</annotation></semantics></math>,
+but suffers from memory constraints when capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>.
+The Greedy heuristic executes in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>
+time, achieving an average approximation ratio above
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99\%</annotation></semantics></math>
+on most instances, though its quality degrades to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.68</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95.68\%</annotation></semantics></math>
+on strongly correlated datasets where profit is tightly coupled with
+weight. We analyze these computational trade-offs to guide algorithmic
+selection.</p>
+<hr />
+<h2 id="problem-statement">1. Problem Statement</h2>
+<p>Given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+items, where each item
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1 \le i \le n</annotation></semantics></math>)
+has a profit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">p_i &gt; 0</annotation></semantics></math>
+and weight
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">w_i &gt; 0</annotation></semantics></math>,
+and a knapsack of capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">W &gt; 0</annotation></semantics></math>,
+select a subset of items to maximize the total profit without exceeding
+the capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>.
+Using binary variables
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">x_i \in \{0, 1\}</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x_i = 1</annotation></semantics></math>
+if item
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+is selected and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+otherwise, the problem is formulated as:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Maximize: </mtext><mspace width="0.333em"></mspace></mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>p</mi><mi>i</mi></msub><msub><mi>x</mi><mi>i</mi></msub><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">subject to </mtext><mspace width="0.333em"></mspace></mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mi>i</mi></msub><msub><mi>x</mi><mi>i</mi></msub><mo>≤</mo><mi>W</mi></mrow><annotation encoding="application/x-tex">\text{Maximize: } \sum_{i=1}^{n} p_i x_i \quad \text{subject to } \sum_{i=1}^{n} w_i x_i \le W</annotation></semantics></math></p>
+<h3 id="computational-complexity">Computational Complexity</h3>
+<ul>
+<li><strong>Decision Version</strong>: Asking if a profit of at least
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+can be achieved is <strong>NP-complete</strong> (proved by reduction
+from Subset Sum).</li>
+<li><strong>Optimization Version</strong>: Maximizing profit is
+<strong>NP-hard</strong>. The search space consists of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>n</mi></msup><annotation encoding="application/x-tex">2^n</annotation></semantics></math>
+subsets. However, if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+is bounded, it can be solved in pseudo-polynomial time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(nW)</annotation></semantics></math>
+using Dynamic Programming.</li>
+</ul>
+<hr />
+<h2 id="description-of-algorithms-used">2. Description of Algorithms
+Used</h2>
+<h3 id="brute-force-exhaustive-recursive-search">2.1 Brute Force
+(Exhaustive Recursive Search)</h3>
+<ul>
+<li><strong>Technique</strong>: Explores the full binary decision tree
+via recursion.</li>
+<li><strong>Recurrence Relation</strong>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mn>0</mn></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><mi>i</mi><mo>=</mo><mn>0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> or </mtext><mspace width="0.333em"></mspace></mrow><mi>c</mi><mo>=</mo><mn>0</mn></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>K</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><msub><mi>w</mi><mi>i</mi></msub><mo>&gt;</mo><mi>c</mi></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mrow><mi mathvariant="normal">max</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>K</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><msub><mi>p</mi><mi>i</mi></msub><mo>+</mo><mi>K</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>c</mi><mo>−</mo><msub><mi>w</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">otherwise</mtext></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">K(i, c) = \begin{cases} 
+0 &amp; \text{if } i = 0 \text{ or } c = 0 \\
+K(i-1, c) &amp; \text{if } w_i &gt; c \\
+\max(K(i-1, c), p_i + K(i-1, c - w_i)) &amp; \text{otherwise}
+\end{cases}</annotation></semantics></math></li>
+<li><strong>Complexity</strong>: Time:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>,
+Space:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>
+due to call stack depth.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> knapsack_brute_force(weights, values, capacity, n<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="kw">is</span> <span class="va">None</span>: n <span class="op">=</span> <span class="bu">len</span>(weights)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> capacity <span class="op">==</span> <span class="dv">0</span>: <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> weights[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">&gt;</span> capacity: <span class="cf">return</span> knapsack_brute_force(weights, values, capacity, n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(knapsack_brute_force(weights, values, capacity, n <span class="op">-</span> <span class="dv">1</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               values[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> knapsack_brute_force(weights, values, capacity <span class="op">-</span> weights[n <span class="op">-</span> <span class="dv">1</span>], n <span class="op">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<h3 id="dynamic-programming-bottom-up-tabulation">2.2 Dynamic
+Programming (Bottom-Up Tabulation)</h3>
+<ul>
+<li><strong>Technique</strong>: Tabulation with space optimization. Uses
+a 1D array <code>dp</code> of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">W+1</annotation></semantics></math>.
+The capacity loop runs backwards from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+down to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>i</mi></msub><annotation encoding="application/x-tex">w_i</annotation></semantics></math>
+to ensure each item is selected at most once.</li>
+<li><strong>Complexity</strong>: Time:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(nW)</annotation></semantics></math>,
+Space:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(W)</annotation></semantics></math>.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> knapsack_dp(weights, values, capacity):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    dp <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (capacity <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(weights)):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> w <span class="kw">in</span> <span class="bu">range</span>(capacity, weights[i] <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            dp[w] <span class="op">=</span> <span class="bu">max</span>(dp[w], values[i] <span class="op">+</span> dp[w <span class="op">-</span> weights[i]])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dp[capacity]</span></code></pre></div>
+<h3 id="greedy-approximation-heuristic">2.3 Greedy Approximation
+Heuristic</h3>
+<ul>
+<li><strong>Technique</strong>: Sorts items descending by
+profit-to-weight ratio
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo><msub><mi>p</mi><mi>i</mi></msub><mi>/</mi><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i = p_i / w_i</annotation></semantics></math>.
+The scan adds items until the remaining capacity cannot fit the next
+item.</li>
+<li><strong>Complexity</strong>: Time:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>,
+Space:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> knapsack_greedy(weights, values, capacity):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    order <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">range</span>(<span class="bu">len</span>(weights)), key<span class="op">=</span><span class="kw">lambda</span> i: values[i] <span class="op">/</span> weights[i], reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    total, remaining <span class="op">=</span> <span class="dv">0</span>, capacity</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> order:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> weights[i] <span class="op">&lt;=</span> remaining:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            total <span class="op">+=</span> values[i]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            remaining <span class="op">-=</span> weights[i]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total</span></code></pre></div>
+<hr />
+<h2 id="details-about-the-data">3. Details About the Data</h2>
+<p>We evaluate the algorithms across four test beds:</p>
+<ol type="1">
+<li><strong>Synthetic Datasets</strong>: Weights
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>,</mo><mn>50</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">w_i \in [1, 50]</annotation></semantics></math>,
+values
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>,</mo><mn>100</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">p_i \in [1, 100]</annotation></semantics></math>,
+and capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>0.4</mn><mo>∑</mo><msub><mi>w</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">W = \lfloor 0.4 \sum w_i \rfloor</annotation></semantics></math>.</li>
+<li><strong>kplib Standard Benchmarks</strong>: Kellerer et
+al. instances (coefficient range
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">R = 1000</annotation></semantics></math>)
+across three correlation families:
+<ul>
+<li><em>00Uncorrelated</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>i</mi></msub><annotation encoding="application/x-tex">p_i</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>i</mi></msub><annotation encoding="application/x-tex">w_i</annotation></semantics></math>
+are independent.</li>
+<li><em>01WeaklyCorrelated</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>w</mi><mi>i</mi></msub><mo>−</mo><mi>R</mi><mi>/</mi><mn>10</mn><mo>,</mo><msub><mi>w</mi><mi>i</mi></msub><mo>+</mo><mi>R</mi><mi>/</mi><mn>10</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">p_i \in [w_i - R/10, w_i + R/10]</annotation></semantics></math>.</li>
+<li><em>02StronglyCorrelated</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>=</mo><msub><mi>w</mi><mi>i</mi></msub><mo>+</mo><mi>R</mi><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">p_i = w_i + R/10</annotation></semantics></math>
+(highly challenging for greedy ratio-sorting).</li>
+</ul></li>
+<li><strong>Jooken Hard Instances (2022)</strong>: Hard benchmarks with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>400</mn><mo>,</mo><mn>1200</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">n \in [400, 1200]</annotation></semantics></math>
+and capacities
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><msup><mn>10</mn><mn>6</mn></msup><mo>,</mo><msup><mn>10</mn><mn>8</mn></msup><mo>,</mo><msup><mn>10</mn><mn>10</mn></msup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">W \in \{10^6, 10^8, 10^{10}\}</annotation></semantics></math>.</li>
+<li><strong>Synthetic Edge Cases Suite</strong>: Verification suite
+containing boundary conditions (single item,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">W=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><mo>∑</mo><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">W \ge \sum w_i</annotation></semantics></math>,
+capacity less than minimum weight, and a classic greedy failure
+counterexample).</li>
+</ol>
+<hr />
+<h2 id="details-about-the-experiments">4. Details About the
+Experiments</h2>
+<ul>
+<li><strong>Environment</strong>: Apple Silicon macOS, Python 3.12.</li>
+<li><strong>Runtimes</strong>: Measured using
+<code>time.perf_counter()</code>. The minimum of 3 runs is
+recorded.</li>
+<li><strong>Safety Limits</strong>: Brute Force is skipped for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n &gt; 20</annotation></semantics></math>
+due to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>
+runtime. DP is skipped for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>&gt;</mo><mn>2</mn><mo>,</mo><mn>000</mn><mo>,</mo><mn>000</mn></mrow><annotation encoding="application/x-tex">W &gt; 2,000,000</annotation></semantics></math>
+to prevent Out-Of-Memory (OOM) failures.</li>
+</ul>
+<hr />
+<h2 id="empirical-results">5. Empirical Results</h2>
+<h3 id="synthetic-shared-results-small-sizes-n-le-20">5.1 Synthetic
+Shared Results (Small Sizes,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n \le 20</annotation></semantics></math>)</h3>
+<p>This set evaluates all three algorithms on identical, deterministic
+inputs.</p>
+<p><strong>Table 1: Small Synthetic Instances (BF vs. DP
+vs. Greedy)</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th style="text-align: center;">Capacity</th>
+<th style="text-align: center;">BF Time</th>
+<th style="text-align: center;">DP Time</th>
+<th style="text-align: center;">Greedy Time</th>
+<th style="text-align: center;">BF Value</th>
+<th style="text-align: center;">DP Value</th>
+<th style="text-align: center;">Greedy Value</th>
+<th style="text-align: center;">Greedy Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">3.00 us</td>
+<td style="text-align: center;">9.29 us</td>
+<td style="text-align: center;">1.33 us</td>
+<td style="text-align: center;">61</td>
+<td style="text-align: center;">61</td>
+<td style="text-align: center;">61</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">62</td>
+<td style="text-align: center;">25.71 us</td>
+<td style="text-align: center;">27.75 us</td>
+<td style="text-align: center;">1.62 us</td>
+<td style="text-align: center;">302</td>
+<td style="text-align: center;">302</td>
+<td style="text-align: center;">302</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">84</td>
+<td style="text-align: center;">113.25 us</td>
+<td style="text-align: center;">49.12 us</td>
+<td style="text-align: center;">2.04 us</td>
+<td style="text-align: center;">356</td>
+<td style="text-align: center;">356</td>
+<td style="text-align: center;">333</td>
+<td style="text-align: center;">93.54%</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">121</td>
+<td style="text-align: center;">355.46 us</td>
+<td style="text-align: center;">84.50 us</td>
+<td style="text-align: center;">2.17 us</td>
+<td style="text-align: center;">329</td>
+<td style="text-align: center;">329</td>
+<td style="text-align: center;">329</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">153</td>
+<td style="text-align: center;">2.79 ms</td>
+<td style="text-align: center;">132.37 us</td>
+<td style="text-align: center;">2.71 us</td>
+<td style="text-align: center;">522</td>
+<td style="text-align: center;">522</td>
+<td style="text-align: center;">520</td>
+<td style="text-align: center;">99.62%</td>
+</tr>
+<tr>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">166</td>
+<td style="text-align: center;">37.12 ms</td>
+<td style="text-align: center;">421.46 us</td>
+<td style="text-align: center;">8.00 us</td>
+<td style="text-align: center;">577</td>
+<td style="text-align: center;">577</td>
+<td style="text-align: center;">554</td>
+<td style="text-align: center;">96.01%</td>
+</tr>
+<tr>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">174</td>
+<td style="text-align: center;">70.30 ms</td>
+<td style="text-align: center;">220.00 us</td>
+<td style="text-align: center;">3.37 us</td>
+<td style="text-align: center;">949</td>
+<td style="text-align: center;">949</td>
+<td style="text-align: center;">949</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="observations">Observations</h4>
+<ol type="1">
+<li><strong>Exponential growth of Brute Force</strong>: Adding one item
+roughly doubles the runtime, confirming
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>
+scaling.</li>
+<li><strong>DP Efficiency</strong>: For small capacities, DP is highly
+efficient, executing in under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+ms.</li>
+<li><strong>Greedy Sub-Optimality</strong>: Greedy fails to find optimal
+solutions at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">n=10</annotation></semantics></math>
+(ratio
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93.54</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">93.54\%</annotation></semantics></math>)
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>18</mn></mrow><annotation encoding="application/x-tex">n=18</annotation></semantics></math>
+(ratio
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>96.01</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">96.01\%</annotation></semantics></math>),
+but runs in microseconds.</li>
+</ol>
+<hr />
+<h3 id="synthetic-large-results-n-ge-50">5.2 Synthetic Large Results
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">n \ge 50</annotation></semantics></math>)</h3>
+<p>Brute Force is skipped. Only DP and Greedy are run.</p>
+<p><strong>Table 2: Large Synthetic Instances (DP
+vs. Greedy)</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th style="text-align: center;">Capacity</th>
+<th style="text-align: center;">DP Time</th>
+<th style="text-align: center;">Greedy Time</th>
+<th style="text-align: center;">DP Value</th>
+<th style="text-align: center;">Greedy Value</th>
+<th style="text-align: center;">Greedy Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">473</td>
+<td style="text-align: center;">1.77 ms</td>
+<td style="text-align: center;">8.00 us</td>
+<td style="text-align: center;">2,005</td>
+<td style="text-align: center;">1,991</td>
+<td style="text-align: center;">99.30%</td>
+</tr>
+<tr>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">986</td>
+<td style="text-align: center;">8.36 ms</td>
+<td style="text-align: center;">16.38 us</td>
+<td style="text-align: center;">3,705</td>
+<td style="text-align: center;">3,698</td>
+<td style="text-align: center;">99.81%</td>
+</tr>
+<tr>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">2073</td>
+<td style="text-align: center;">34.65 ms</td>
+<td style="text-align: center;">33.88 us</td>
+<td style="text-align: center;">7,117</td>
+<td style="text-align: center;">7,117</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: center;">300</td>
+<td style="text-align: center;">3070</td>
+<td style="text-align: center;">72.32 ms</td>
+<td style="text-align: center;">51.83 us</td>
+<td style="text-align: center;">10,602</td>
+<td style="text-align: center;">10,599</td>
+<td style="text-align: center;">99.97%</td>
+</tr>
+<tr>
+<td style="text-align: center;">500</td>
+<td style="text-align: center;">4971</td>
+<td style="text-align: center;">197.09 ms</td>
+<td style="text-align: center;">91.88 us</td>
+<td style="text-align: center;">18,982</td>
+<td style="text-align: center;">18,977</td>
+<td style="text-align: center;">99.97%</td>
+</tr>
+<tr>
+<td style="text-align: center;">750</td>
+<td style="text-align: center;">7651</td>
+<td style="text-align: center;">482.77 ms</td>
+<td style="text-align: center;">142.50 us</td>
+<td style="text-align: center;">28,049</td>
+<td style="text-align: center;">28,046</td>
+<td style="text-align: center;">99.99%</td>
+</tr>
+<tr>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">10334</td>
+<td style="text-align: center;">825.34 ms</td>
+<td style="text-align: center;">193.25 us</td>
+<td style="text-align: center;">36,613</td>
+<td style="text-align: center;">36,613</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="observations-1">Observations</h4>
+<ol type="1">
+<li><strong>DP Scaling</strong>: Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+scales linearly with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≈</mo><mn>10</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">W \approx 10n</annotation></semantics></math>),
+DP runtime grows quadratically
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>,
+reaching
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>825.34</mn><annotation encoding="application/x-tex">825.34</annotation></semantics></math>
+ms at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">n=1000</annotation></semantics></math>.</li>
+<li><strong>Greedy Scaling &amp; Quality</strong>: Greedy executes in
+under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>200</mn><annotation encoding="application/x-tex">200</annotation></semantics></math>
+us and achieves an approximation ratio close to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">100\%</annotation></semantics></math>.
+The relative impact of capacity slack decreases with larger
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</li>
+</ol>
+<hr />
+<h3 id="correlation-analysis-kplib-standard-benchmarks">5.3 Correlation
+Analysis (kplib Standard Benchmarks)</h3>
+<p>We evaluate the impact of item correlations on algorithm
+performance.</p>
+<p><strong>Table 3: kplib Benchmarks Grouped by Correlation Family and
+Size</strong></p>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Category</th>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th style="text-align: center;">Avg DP Time</th>
+<th style="text-align: center;">Avg Greedy Time</th>
+<th style="text-align: center;">Avg Greedy Ratio</th>
+<th style="text-align: center;">Min Greedy Ratio</th>
+<th style="text-align: center;">Max Greedy Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>00Uncorrelated</strong></td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">53.69 ms</td>
+<td style="text-align: center;">8.14 us</td>
+<td style="text-align: center;"><strong>99.99%</strong></td>
+<td style="text-align: center;">99.96%</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">172.95 ms</td>
+<td style="text-align: center;">16.88 us</td>
+<td style="text-align: center;"><strong>99.87%</strong></td>
+<td style="text-align: center;">99.63%</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">783.01 ms</td>
+<td style="text-align: center;">34.76 us</td>
+<td style="text-align: center;"><strong>99.92%</strong></td>
+<td style="text-align: center;">99.87%</td>
+<td style="text-align: center;">99.96%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>01WeaklyCorrelated</strong></td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">50.37 ms</td>
+<td style="text-align: center;">7.89 us</td>
+<td style="text-align: center;"><strong>99.57%</strong></td>
+<td style="text-align: center;">99.39%</td>
+<td style="text-align: center;">99.67%</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">209.78 ms</td>
+<td style="text-align: center;">15.76 us</td>
+<td style="text-align: center;"><strong>99.85%</strong></td>
+<td style="text-align: center;">99.79%</td>
+<td style="text-align: center;">99.93%</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">779.17 ms</td>
+<td style="text-align: center;">33.28 us</td>
+<td style="text-align: center;"><strong>99.97%</strong></td>
+<td style="text-align: center;">99.94%</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>02StronglyCorrelated</strong></td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">50.38 ms</td>
+<td style="text-align: center;">8.18 us</td>
+<td style="text-align: center;"><strong>97.24%</strong></td>
+<td style="text-align: center;"><strong>95.68%</strong></td>
+<td style="text-align: center;">98.12%</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">209.93 ms</td>
+<td style="text-align: center;">15.63 us</td>
+<td style="text-align: center;"><strong>99.18%</strong></td>
+<td style="text-align: center;"><strong>98.88%</strong></td>
+<td style="text-align: center;">99.34%</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">779.91 ms</td>
+<td style="text-align: center;">33.92 us</td>
+<td style="text-align: center;"><strong>99.32%</strong></td>
+<td style="text-align: center;"><strong>98.98%</strong></td>
+<td style="text-align: center;">99.60%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="observations-2">Observations</h4>
+<ol type="1">
+<li><strong>DP Runtime Independence</strong>: DP runtime is unaffected
+by item correlation, taking
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>780</mn></mrow><annotation encoding="application/x-tex">\approx 780</annotation></semantics></math>
+ms at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>200</mn></mrow><annotation encoding="application/x-tex">n=200</annotation></semantics></math>
+across all categories, matching the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(nW)</annotation></semantics></math>
+theoretical bound.</li>
+<li><strong>Greedy Degradation</strong>: Greedy’s approximation ratio
+drops on strongly correlated instances, hitting a minimum of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.68</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95.68\%</annotation></semantics></math>.
+Under strong correlation
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>=</mo><msub><mi>w</mi><mi>i</mi></msub><mo>+</mo><mi>R</mi><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">p_i = w_i + R/10</annotation></semantics></math>),
+the profit-to-weight ratio
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo>+</mo><mi>R</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>10</mn><msub><mi>w</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r_i = 1 + R/(10w_i)</annotation></semantics></math>
+becomes highly sensitive to small variations in weight, leading to poor
+packing choices that leave empty capacity.</li>
+</ol>
+<hr />
+<h3 id="jooken-hard-instances-large-scale-and-massive-capacities">5.4
+Jooken Hard Instances (Large Scale and Massive Capacities)</h3>
+<p>Evaluating algorithms under massive capacity demands.</p>
+<p><strong>Table 4: Jooken Instances Grouped by Size and
+Capacity</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th style="text-align: center;">Capacity</th>
+<th style="text-align: center;">Count</th>
+<th style="text-align: center;">DP Count (Run)</th>
+<th style="text-align: center;">Avg DP Time</th>
+<th style="text-align: center;">Avg Greedy Time</th>
+<th style="text-align: center;">Avg Greedy Ratio (DP cases)</th>
+<th style="text-align: center;">Min Greedy Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">400</td>
+<td style="text-align: center;">1,000,000</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">27.20 s</td>
+<td style="text-align: center;">67.62 us</td>
+<td style="text-align: center;">99.04%</td>
+<td style="text-align: center;">95.63%</td>
+</tr>
+<tr>
+<td style="text-align: center;">400</td>
+<td style="text-align: center;">100,000,000</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">65.92 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">400</td>
+<td style="text-align: center;">10,000,000,000</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">71.64 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">600</td>
+<td style="text-align: center;">1,000,000</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">42.28 s</td>
+<td style="text-align: center;">101.63 us</td>
+<td style="text-align: center;">99.31%</td>
+<td style="text-align: center;">96.93%</td>
+</tr>
+<tr>
+<td style="text-align: center;">600</td>
+<td style="text-align: center;">100,000,000</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">116.12 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">600</td>
+<td style="text-align: center;">10,000,000,000</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">119.88 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">800</td>
+<td style="text-align: center;">1,000,000</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">47.50 s</td>
+<td style="text-align: center;">138.03 us</td>
+<td style="text-align: center;">100.00%</td>
+<td style="text-align: center;">99.99%</td>
+</tr>
+<tr>
+<td style="text-align: center;">800</td>
+<td style="text-align: center;">100,000,000</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">147.09 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">800</td>
+<td style="text-align: center;">10,000,000,000</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">148.78 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">1,000,000</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">73.78 s</td>
+<td style="text-align: center;">182.24 us</td>
+<td style="text-align: center;">99.98%</td>
+<td style="text-align: center;">99.92%</td>
+</tr>
+<tr>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">100,000,000</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">181.38 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">10,000,000,000</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">187.52 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">1200</td>
+<td style="text-align: center;">1,000,000</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">72.18 s</td>
+<td style="text-align: center;">216.17 us</td>
+<td style="text-align: center;">99.15%</td>
+<td style="text-align: center;">94.19%</td>
+</tr>
+<tr>
+<td style="text-align: center;">1200</td>
+<td style="text-align: center;">100,000,000</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">217.59 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;">1200</td>
+<td style="text-align: center;">10,000,000,000</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><em>Skipped (OOM)</em></td>
+<td style="text-align: center;">223.01 us</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="observations-3">Observations</h4>
+<ol type="1">
+<li><strong>DP Limitations</strong>: DP was skipped on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63</mn><mi>/</mi><mn>100</mn></mrow><annotation encoding="application/x-tex">63/100</annotation></semantics></math>
+instances where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>
+to prevent OOM errors. For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>000</mn><mo>,</mo><mn>000</mn></mrow><annotation encoding="application/x-tex">W = 1,000,000</annotation></semantics></math>,
+DP runtimes were significant (up to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>73.78</mn><annotation encoding="application/x-tex">73.78</annotation></semantics></math>
+s), showing that pseudo-polynomial execution becomes a bottleneck at
+scale.</li>
+<li><strong>Greedy Scalability</strong>: Greedy completed in under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>230</mn><annotation encoding="application/x-tex">230</annotation></semantics></math>
+us across all instances, retaining high-quality approximations (avg
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99.44</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99.44\%</annotation></semantics></math>,
+min
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>94.19</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">94.19\%</annotation></semantics></math>).</li>
+</ol>
+<hr />
+<h3 id="synthetic-edge-cases-verification">5.5 Synthetic Edge Cases
+Verification</h3>
+<p><strong>Table 5: Edge Cases Results</strong></p>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Case Name</th>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th style="text-align: center;">Capacity</th>
+<th style="text-align: center;">BF Time</th>
+<th style="text-align: center;">DP Time</th>
+<th style="text-align: center;">Greedy Time</th>
+<th style="text-align: center;">BF Val</th>
+<th style="text-align: center;">DP Val</th>
+<th style="text-align: center;">Greedy Val</th>
+<th style="text-align: center;">Greedy Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>n1_cap0</code></strong></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">334.00 ns</td>
+<td style="text-align: center;">624.98 ns</td>
+<td style="text-align: center;">834.00 ns</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><code>n1_exact</code></strong></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">584.03 ns</td>
+<td style="text-align: center;">540.98 ns</td>
+<td style="text-align: center;">749.98 ns</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><code>cap_equals_sum</code></strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">1.75 us</td>
+<td style="text-align: center;">3.71 us</td>
+<td style="text-align: center;">1.08 us</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><code>cap_less_than_min</code></strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">416.01 ns</td>
+<td style="text-align: center;">542.00 ns</td>
+<td style="text-align: center;">916.97 ns</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><code>greedy_failure_classic</code></strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">1.50 us</td>
+<td style="text-align: center;">7.13 us</td>
+<td style="text-align: center;">917.00 ns</td>
+<td style="text-align: center;">220</td>
+<td style="text-align: center;">220</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;"><strong>72.73%</strong></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><code>many_equal_items</code></strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2.37 us</td>
+<td style="text-align: center;">1.33 us</td>
+<td style="text-align: center;">1.04 us</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">100.00%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="observations-4">Observations</h4>
+<ol type="1">
+<li><strong>Verification</strong>: BF and DP match on all instances,
+validating implementation correctness.</li>
+<li><strong>Greedy Failure</strong>: On
+<code>greedy_failure_classic</code>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">W=50</annotation></semantics></math>,
+items:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>60</mn><mo>,</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mn>100</mn><mo>,</mo><mn>20</mn><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mn>120</mn><mo>,</mo><mn>30</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(60, 10), (100, 20), (120, 30)</annotation></semantics></math>),
+Greedy selects ratio-optimal items
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+yielding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>160</mn><annotation encoding="application/x-tex">160</annotation></semantics></math>,
+while the global optimal is items
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+yielding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>220</mn><annotation encoding="application/x-tex">220</annotation></semantics></math>.
+Greedy achieves only
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>72.73</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">72.73\%</annotation></semantics></math>
+optimization due to item indivisibility.</li>
+</ol>
+<hr />
+<h2 id="visualization-figures">6. Visualization Figures</h2>
+<div class="figures-container">
+<figure>
+<img src="results/plot_shared_runtime.png"
+alt="Figure 1: Small Runtime Comparison (n = 5 to 20)" />
+<figcaption aria-hidden="true"><strong>Figure 1</strong>: Small Runtime
+Comparison
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">n = 5</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>20</mn><annotation encoding="application/x-tex">20</annotation></semantics></math>)</figcaption>
+</figure>
+<figure>
+<img src="results/plot_large_runtime.png"
+alt="Figure 2: Large Runtime Comparison (n = 50 to 1000)" />
+<figcaption aria-hidden="true"><strong>Figure 2</strong>: Large Runtime
+Comparison
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">n = 50</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>)</figcaption>
+</figure>
+<figure>
+<img src="results/plot_kplib_ratios.png"
+alt="Figure 3: Greedy Solution Quality by Correlation Family" />
+<figcaption aria-hidden="true"><strong>Figure 3</strong>: Greedy
+Solution Quality by Correlation Family</figcaption>
+</figure>
+</div>
+<hr />
+<h2 id="discussion-and-analysis">7. Discussion and Analysis</h2>
+<ul>
+<li><strong>Brute Force</strong>: Serves as a correctness baseline;
+limited by its
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>
+exponential complexity.</li>
+<li><strong>Dynamic Programming</strong>: Best for absolute optimality
+when capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+is small to moderate. Suffers from high computational and memory
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(W)</annotation></semantics></math>
+limits when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>.</li>
+<li><strong>Greedy Heuristic</strong>: Runs in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>
+time with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>
+space. Highly scalable, making it the practical choice for real-time or
+massive instances, though susceptible to correlation-induced
+sub-optimality.</li>
+</ul>
+<hr />
+<h2 id="conclusion">8. Conclusion</h2>
+<p>We evaluated three Knapsack algorithms across synthetic, standard
+(<code>kplib</code>), and large-scale hard benchmarks. Our analysis
+shows that Brute Force is limited to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n \le 20</annotation></semantics></math>,
+Dynamic Programming is bound by memory when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>,
+and Greedy heuristics scale near-instantly but yield sub-optimal results
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95\%</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99\%</annotation></semantics></math>)
+depending on dataset correlation. Algorithm selection must balance
+constraints between optimality requirements and memory budgets.</p>
+<hr />
+<h2 id="references">References</h2>
+<ol type="1">
+<li>Kellerer, H., Pisinger, D., &amp; Toth, P. (2004). <em>Knapsack
+Problems</em>. Springer.</li>
+<li>Jooken, J., Leyman, P., &amp; De Causmaecker, G. (2022). A new
+generator for hard 0/1 knapsack instances. <em>European Journal of
+Operational Research</em>, 301(3), 856-869.</li>
+<li>Pisinger, D. (1995). <em>Algorithms for Knapsack Problems</em>. PhD
+thesis, University of Copenhagen.</li>
+<li>Pisinger, D., &amp; Saidi, A. (2017). Tolerance analysis for 0–1
+knapsack problems. <em>European Journal of Operational Research</em>,
+258(3), 866-876.</li>
+</ol>
+</body>
+</html>
