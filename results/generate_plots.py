@@ -1,3 +1,5 @@
+import sys
+sys.path.append('/opt/homebrew/lib/python3.12/site-packages')
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -84,6 +86,105 @@ for bar in bars:
 
 plt.tight_layout()
 plt.savefig('results/plot_kplib_ratios.png', dpi=300)
+plt.close()
+
+# 4. Figure 4: DP Feasibility Boundary on Jooken Instances (N vs Capacity)
+jooken = df[df['source'] == 'jooken'].copy()
+jooken['Status'] = jooken['dp_time'].apply(lambda t: 'Solved' if pd.notna(t) else 'Skipped (OOM Limit)')
+
+plt.figure(figsize=(8, 5))
+# Using a categorical color palette matching the existing figures
+sns.scatterplot(
+    data=jooken, 
+    x='n', 
+    y='capacity', 
+    hue='Status', 
+    palette={'Solved': '#3182bd', 'Skipped (OOM Limit)': '#de2d26'},
+    style='Status',
+    s=100,
+    alpha=0.8
+)
+plt.yscale('log')
+plt.xlabel('Number of Items (n)')
+plt.ylabel('Knapsack Capacity (W) - Log Scale')
+plt.title('Figure 4: Feasibility Boundary of Dynamic Programming on Jooken Hard Instances')
+plt.legend(frameon=True, facecolor='white', edgecolor='lightgray', title='DP Status')
+plt.tight_layout()
+plt.savefig('results/plot_dp_feasibility.png', dpi=300)
+plt.close()
+
+# 5. Figure 5: Greedy Runtime Scalability on Jooken Instances
+jooken['gr_time_us'] = jooken['gr_time'] * 1e6
+plt.figure(figsize=(8, 5))
+sns.lineplot(
+    data=jooken,
+    x='n',
+    y='gr_time_us',
+    hue='capacity',
+    palette='viridis',
+    marker='o',
+    linewidth=2,
+    legend='full'
+)
+# Format legend labels to be human-readable, e.g., W = 1e+06, W = 1e+08, W = 1e+10
+handles, labels = plt.gca().get_legend_handles_labels()
+new_labels = []
+for l in labels:
+    try:
+        val = float(l)
+        new_labels.append(f'W = {val:.0e}')
+    except ValueError:
+        new_labels.append(l)
+plt.legend(handles, new_labels, frameon=True, facecolor='white', edgecolor='lightgray', title='Capacity')
+
+plt.xlabel('Number of Items (n)')
+plt.ylabel('Greedy Runtime (Microseconds)')
+plt.title('Figure 5: Greedy Runtime Scalability on Jooken Hard Instances')
+plt.tight_layout()
+plt.savefig('results/plot_greedy_jooken_runtime.png', dpi=300)
+plt.close()
+
+# 6. Figure 6: Distribution of Greedy Approximation Ratios (Jooken vs kplib)
+k_df = df[df['source'] == 'kplib'].copy()
+k_df['cat'] = k_df['name'].apply(lambda x: x.split('/')[1] if len(x.split('/')) > 1 else 'unknown')
+cat_map = {
+    '00Uncorrelated': 'kplib - Uncorrelated',
+    '01WeaklyCorrelated': 'kplib - Weakly Correlated',
+    '02StronglyCorrelated': 'kplib - Strongly Correlated'
+}
+k_df['group'] = k_df['cat'].map(cat_map)
+
+j_df = df[(df['source'] == 'jooken') & df['gr_ratio'].notna()].copy()
+j_df['group'] = 'jooken - Hard Instances'
+
+combined = pd.concat([k_df[['group', 'gr_ratio']], j_df[['group', 'gr_ratio']]])
+combined['gr_ratio_pct'] = combined['gr_ratio'] * 100
+
+plt.figure(figsize=(9, 6))
+sns.boxplot(
+    data=combined,
+    x='group',
+    y='gr_ratio_pct',
+    palette='Set2',
+    width=0.5,
+    showfliers=False
+)
+sns.stripplot(
+    data=combined,
+    x='group',
+    y='gr_ratio_pct',
+    color='black',
+    alpha=0.5,
+    size=5,
+    jitter=0.2
+)
+
+plt.ylabel('Greedy Approximation Ratio (%)')
+plt.xlabel('Dataset Category')
+plt.title('Figure 6: Distribution of Greedy Approximation Ratios')
+plt.xticks(rotation=15)
+plt.tight_layout()
+plt.savefig('results/plot_greedy_ratios_distribution.png', dpi=300)
 plt.close()
 
 print("All plots generated successfully!")

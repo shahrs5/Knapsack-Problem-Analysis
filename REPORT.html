@@ -92,6 +92,9 @@
   <link rel="stylesheet" href="results/pdf_style.css" />
 </head>
 <body>
+<header id="title-block-header">
+<h1 class="title">REPORT</h1>
+</header>
 <h1
 id="comparative-empirical-analysis-of-exact-and-heuristic-algorithms-for-the-01-knapsack-problem">Comparative
 Empirical Analysis of Exact and Heuristic Algorithms for the 0/1
@@ -113,17 +116,13 @@ Shahid</strong> (ERP: 29053)  •  <strong>Hassan Jabbar</strong> (ERP:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">0/1</annotation></semantics></math>
 Knapsack Problem is a classic NP-hard combinatorial optimization problem
 with applications in resource allocation, portfolio selection, and
-cryptography. The problem is also conceptually linked to practical sales
-operations, such as the Traveling Salesperson Problem (TSP); before a
-salesperson departs on their tour, they must solve a knapsack problem to
-figure out what items or goods to carry, because a salesperson without
-their goods is not a good salesperson. This report presents a
-comparative empirical analysis of three core algorithms: <strong>Brute
-Force (Exhaustive Recursion)</strong>, <strong>Dynamic Programming
-(Bottom-up Tabulation)</strong>, and a <strong>Greedy Approximation
-Heuristic (Value-to-Weight Ratio Sort)</strong>. We evaluate these
-algorithms across synthetic datasets, standard benchmark datasets from
-the <code>kplib</code> library, and large-scale hard benchmarks. Our
+cryptography. This report presents a comparative empirical analysis of
+three core algorithms: <strong>Brute Force (Exhaustive
+Recursion)</strong>, <strong>Dynamic Programming (Bottom-up
+Tabulation)</strong>, and a <strong>Greedy Approximation Heuristic
+(Value-to-Weight Ratio Sort)</strong>. We evaluate these algorithms
+across synthetic datasets, standard benchmark datasets from the
+<code>kplib</code> library, and large-scale hard benchmarks. Our
 findings confirm that Brute Force exhibits exponential time growth
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>,
 becoming intractable for
@@ -1036,53 +1035,183 @@ optimization due to item indivisibility.</li>
 <div class="figures-container">
 <figure>
 <img src="results/plot_shared_runtime.png"
-alt="Figure 1: Small Runtime Comparison (n = 5 to 20)" />
+alt="Figure 1: Small Runtime Comparison (n = 5 to 20). Plots execution time on a logarithmic scale, highlighting the exponential time growth of Brute Force (O(2^n)) compared to Dynamic Programming (O(nW)) and the Greedy heuristic (O(n \log n))." />
 <figcaption aria-hidden="true"><strong>Figure 1</strong>: Small Runtime
 Comparison
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">n = 5</annotation></semantics></math>
 to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>20</mn><annotation encoding="application/x-tex">20</annotation></semantics></math>)</figcaption>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>20</mn><annotation encoding="application/x-tex">20</annotation></semantics></math>).
+Plots execution time on a logarithmic scale, highlighting the
+exponential time growth of Brute Force
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>)
+compared to Dynamic Programming
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(nW)</annotation></semantics></math>)
+and the Greedy heuristic
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>).</figcaption>
 </figure>
 <figure>
 <img src="results/plot_large_runtime.png"
-alt="Figure 2: Large Runtime Comparison (n = 50 to 1000)" />
+alt="Figure 2: Large Runtime Comparison (n = 50 to 1000). Plots execution time on a linear scale, illustrating the pseudo-polynomial quadratic growth of Dynamic Programming (where capacity W scales as 10n) against the near-instantaneous scaling of the Greedy heuristic." />
 <figcaption aria-hidden="true"><strong>Figure 2</strong>: Large Runtime
 Comparison
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">n = 50</annotation></semantics></math>
 to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>)</figcaption>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>).
+Plots execution time on a linear scale, illustrating the
+pseudo-polynomial quadratic growth of Dynamic Programming (where
+capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+scales as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">10n</annotation></semantics></math>)
+against the near-instantaneous scaling of the Greedy
+heuristic.</figcaption>
 </figure>
 <figure>
 <img src="results/plot_kplib_ratios.png"
-alt="Figure 3: Greedy Solution Quality by Correlation Family" />
+alt="Figure 3: Greedy Solution Quality by Correlation Family. Compares the average, minimum, and maximum approximation ratios of Greedy on kplib datasets, demonstrating performance degradation on strongly correlated instances (down to 95.68\%)." />
 <figcaption aria-hidden="true"><strong>Figure 3</strong>: Greedy
-Solution Quality by Correlation Family</figcaption>
+Solution Quality by Correlation Family. Compares the average, minimum,
+and maximum approximation ratios of Greedy on kplib datasets,
+demonstrating performance degradation on strongly correlated instances
+(down to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.68</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95.68\%</annotation></semantics></math>).</figcaption>
+</figure>
+<figure>
+<img src="results/plot_dp_feasibility.png"
+alt="Figure 4: DP Feasibility Boundary on Jooken Instances. Scatter plot of item count n versus capacity W, indicating where DP executed successfully (capacity 10^6) versus where it was skipped due to OOM memory constraints (capacity \ge 10^8)." />
+<figcaption aria-hidden="true"><strong>Figure 4</strong>: DP Feasibility
+Boundary on Jooken Instances. Scatter plot of item count
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+versus capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>,
+indicating where DP executed successfully (capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>6</mn></msup><annotation encoding="application/x-tex">10^6</annotation></semantics></math>)
+versus where it was skipped due to OOM memory constraints (capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">\ge 10^8</annotation></semantics></math>).</figcaption>
+</figure>
+<figure>
+<img src="results/plot_greedy_jooken_runtime.png"
+alt="Figure 5: Greedy Runtime Scalability on Jooken Instances. Displays Greedy runtime against n across capacities 10^6 to 10^{10}, proving that knapsack capacity has zero computational impact on Greedy efficiency." />
+<figcaption aria-hidden="true"><strong>Figure 5</strong>: Greedy Runtime
+Scalability on Jooken Instances. Displays Greedy runtime against
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+across capacities
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>6</mn></msup><annotation encoding="application/x-tex">10^6</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>10</mn></msup><annotation encoding="application/x-tex">10^{10}</annotation></semantics></math>,
+proving that knapsack capacity has zero computational impact on Greedy
+efficiency.</figcaption>
+</figure>
+<figure>
+<img src="results/plot_greedy_ratios_distribution.png"
+alt="Figure 6: Distribution of Greedy Approximation Ratios. Box-and-swarm plot of Greedy performance across all benchmark groups, revealing the distribution spread, median accuracy, and worst-case outliers." />
+<figcaption aria-hidden="true"><strong>Figure 6</strong>: Distribution
+of Greedy Approximation Ratios. Box-and-swarm plot of Greedy performance
+across all benchmark groups, revealing the distribution spread, median
+accuracy, and worst-case outliers.</figcaption>
 </figure>
 </div>
 <hr />
 <h2 id="discussion-and-analysis">7. Discussion and Analysis</h2>
+<h3 id="empirical-analysis-of-visualization-figures">7.1 Empirical
+Analysis of Visualization Figures</h3>
 <ul>
-<li><strong>Brute Force</strong>: Serves as a correctness baseline;
-limited by its
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(2^n)</annotation></semantics></math>
-exponential complexity.</li>
-<li><strong>Dynamic Programming</strong>: Best for absolute optimality
-when capacity
+<li><strong>Figure 1 &amp; 2 (Runtime Scaling):</strong> Confirm the
+theoretical time complexities. Brute Force grows exponentially, DP
+scales quadratically when capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>∝</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">W \propto n</annotation></semantics></math>,
+and Greedy remains practically constant at less than 200
+microseconds.</li>
+<li><strong>Figure 3 (Greedy Correlation Sensitivity):</strong> Shows
+Greedy’s approximation quality degrading specifically under the
+<code>02StronglyCorrelated</code> family. When profit is tightly coupled
+with weight, greedy ratio-sort choices become highly sub-optimal as item
+boundaries prevent full utilization of capacity.</li>
+<li><strong>Figure 4 (DP Feasibility Boundary):</strong> Illustrates the
+hard limits of pseudo-polynomial algorithms. While DP is highly
+efficient at lower capacities (capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><msup><mn>10</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">W = 10^6</annotation></semantics></math>),
+scaling
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
-is small to moderate. Suffers from high computational and memory
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(W)</annotation></semantics></math>
-limits when
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>.</li>
-<li><strong>Greedy Heuristic</strong>: Runs in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>
-time with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>
-space. Highly scalable, making it the practical choice for real-time or
-massive instances, though susceptible to correlation-induced
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>8</mn></msup><annotation encoding="application/x-tex">10^8</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>10</mn></msup><annotation encoding="application/x-tex">10^{10}</annotation></semantics></math>
+triggers safety limits (or memory exhaustion). This scatter plot reveals
+that DP’s feasibility is strictly dependent on the capacity parameter
+rather than the input size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</li>
+<li><strong>Figure 5 (Greedy Capacity Independence):</strong>
+Demonstrates that Greedy’s runtime remains extremely low (under 250
+microseconds) across all capacity scales
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>6</mn></msup><annotation encoding="application/x-tex">10^6</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>10</mn></msup><annotation encoding="application/x-tex">10^{10}</annotation></semantics></math>).
+The three lines representing different capacity scales overlap closely,
+validating that Greedy’s performance depends entirely on sorting the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+items and scanning them, completely decoupled from capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>.</li>
+<li><strong>Figure 6 (Approximation Ratio Distributions):</strong> A
+combined box-and-swarm plot displaying the distribution of greedy
+ratios. We observe that on <code>kplib</code> uncorrelated,
+weakly-correlated, and Jooken hard instances, Greedy maintains a
+high-quality median approximation ratio near 100% with narrow spreads.
+However, strongly-correlated instances have a significantly larger
+variance and a median drop (down to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.68</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95.68\%</annotation></semantics></math>),
+showing that correlation structure is the primary driver of greedy
 sub-optimality.</li>
 </ul>
+<h3 id="algorithm-use-cases-and-real-world-applications">7.2 Algorithm
+Use Cases and Real-World Applications</h3>
+<h4 id="brute-force-exhaustive-recursion">Brute Force (Exhaustive
+Recursion)</h4>
+<ul>
+<li><strong>Real-World Applications:</strong> Simple embedded
+controllers with minimal code footprints, correctness test harnesses,
+small-scale configuration tasks (e.g., choosing from a menu of less than
+15 items).</li>
+<li><strong>When to Use:</strong> When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n \le 20</annotation></semantics></math>,
+memory overhead must be strictly zero, and optimal solutions are
+mandatory. It serves primarily as a correctness validator for complex
+algorithms.</li>
+</ul>
+<h4 id="dynamic-programming-bottom-up-tabulation-1">Dynamic Programming
+(Bottom-Up Tabulation)</h4>
+<ul>
+<li><strong>Real-World Applications:</strong> Cloud computing resource
+allocation (bundling containers under fixed memory limits), fixed-budget
+marketing campaigns, cargo container packing (with moderate integer
+weights), and cryptographic knapsack cryptosystems.</li>
+<li><strong>When to Use:</strong> When absolute optimality is required
+and the knapsack capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+is a reasonably small integer (typically
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>&lt;</mo><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">W &lt; 10^7</annotation></semantics></math>).
+It is not suitable when capacity is an arbitrary float or an extremely
+large value.</li>
+</ul>
+<h4 id="greedy-heuristic-ratio-sorting">Greedy Heuristic (Ratio
+Sorting)</h4>
+<ul>
+<li><strong>Real-World Applications:</strong> High-frequency ad bidding
+platforms, packet routing/switching under network bandwidth constraints,
+real-time cargo manifest loading, metaheuristic seed initializations,
+and large-scale cargo logistics where float capacities are present.</li>
+<li><strong>When to Use:</strong> When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is very large
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">n \ge 1000</annotation></semantics></math>),
+capacity is massive or non-integral, sub-millisecond execution is
+required, and a bounded deviation from optimality (typically
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">&lt; 2\%</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">5\%</annotation></semantics></math>)
+is acceptable.</li>
+</ul>
 <hr />
-<h2 id="conclusion">8. Conclusion</h2>
+<h2 id="conclusion-and-decision-guide">8. Conclusion and Decision
+Guide</h2>
 <p>We evaluated three Knapsack algorithms across synthetic, standard
 (<code>kplib</code>), and large-scale hard benchmarks. Our analysis
 shows that Brute Force is limited to
@@ -1091,8 +1220,73 @@ Dynamic Programming is bound by memory when
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>,
 and Greedy heuristics scale near-instantly but yield sub-optimal results
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95\%</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99\%</annotation></semantics></math>)
-depending on dataset correlation. Algorithm selection must balance
-constraints between optimality requirements and memory budgets.</p>
+depending on dataset correlation.</p>
+<p>To assist developers in selecting the correct algorithm, the
+following decision matrix can be utilized:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Requirement</th>
+<th style="text-align: left;">Recommended Algorithm</th>
+<th style="text-align: left;">Rationale / Key Constraint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n \le 20</annotation></semantics></math>,
+absolute optimality</strong></td>
+<td style="text-align: left;">Brute Force</td>
+<td style="text-align: left;">Simplest to implement, minimal code size,
+runs in microseconds for tiny
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n &gt; 20</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>&lt;</mo><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">W &lt; 10^7</annotation></semantics></math>,
+absolute optimality</strong></td>
+<td style="text-align: left;">Dynamic Programming</td>
+<td style="text-align: left;">Guaranteed 100% optimal solutions in
+pseudo-polynomial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(nW)</annotation></semantics></math>
+time.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≥</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">W \ge 10^8</annotation></semantics></math>,
+absolute optimality</strong></td>
+<td style="text-align: left;">Exact Solvers (MIP /
+Branch-and-Bound)</td>
+<td style="text-align: left;">DP tabulation fails due to memory capacity
+limits; requires pruning search trees.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">n \ge 1000</annotation></semantics></math>
+or real-time / sub-millisecond</strong></td>
+<td style="text-align: left;">Greedy Heuristic</td>
+<td style="text-align: left;">Highly scalable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math>
+time complexity, completely independent of capacity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Strongly correlated data, high
+quality needed</strong></td>
+<td style="text-align: left;">Dynamic Programming (if feasible)</td>
+<td style="text-align: left;">Greedy heuristic performs worst under
+strong correlations, dropping down to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95\%</annotation></semantics></math>
+accuracy.</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="references">References</h2>
 <ol type="1">

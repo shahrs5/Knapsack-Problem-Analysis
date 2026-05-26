@@ -14,7 +14,7 @@
 ---
 
 ## Abstract
-The $0/1$ Knapsack Problem is a classic NP-hard combinatorial optimization problem with applications in resource allocation, portfolio selection, and cryptography. The problem is also conceptually linked to practical sales operations, such as the Traveling Salesperson Problem (TSP); before a salesperson departs on their tour, they must solve a knapsack problem to figure out what items or goods to carry, because a salesperson without their goods is not a good salesperson. This report presents a comparative empirical analysis of three core algorithms: **Brute Force (Exhaustive Recursion)**, **Dynamic Programming (Bottom-up Tabulation)**, and a **Greedy Approximation Heuristic (Value-to-Weight Ratio Sort)**. We evaluate these algorithms across synthetic datasets, standard benchmark datasets from the `kplib` library, and large-scale hard benchmarks. Our findings confirm that Brute Force exhibits exponential time growth $O(2^n)$, becoming intractable for $n > 20$. Dynamic Programming guarantees optimal solutions in pseudo-polynomial time $O(nW)$, but suffers from memory constraints when capacity $W \ge 10^8$. The Greedy heuristic executes in $O(n \log n)$ time, achieving an average approximation ratio above $99\%$ on most instances, though its quality degrades to $95.68\%$ on strongly correlated datasets where profit is tightly coupled with weight. We analyze these computational trade-offs to guide algorithmic selection.
+The $0/1$ Knapsack Problem is a classic NP-hard combinatorial optimization problem with applications in resource allocation, portfolio selection, and cryptography. This report presents a comparative empirical analysis of three core algorithms: **Brute Force (Exhaustive Recursion)**, **Dynamic Programming (Bottom-up Tabulation)**, and a **Greedy Approximation Heuristic (Value-to-Weight Ratio Sort)**. We evaluate these algorithms across synthetic datasets, standard benchmark datasets from the `kplib` library, and large-scale hard benchmarks. Our findings confirm that Brute Force exhibits exponential time growth $O(2^n)$, becoming intractable for $n > 20$. Dynamic Programming guarantees optimal solutions in pseudo-polynomial time $O(nW)$, but suffers from memory constraints when capacity $W \ge 10^8$. The Greedy heuristic executes in $O(n \log n)$ time, achieving an average approximation ratio above $99\%$ on most instances, though its quality degrades to $95.68\%$ on strongly correlated datasets where profit is tightly coupled with weight. We analyze these computational trade-offs to guide algorithmic selection.
 
 ---
 
@@ -218,24 +218,58 @@ Evaluating algorithms under massive capacity demands.
 ## 6. Visualization Figures
 
 ::: {.figures-container}
-![**Figure 1**: Small Runtime Comparison ($n = 5$ to $20$)](results/plot_shared_runtime.png)
+![**Figure 1**: Small Runtime Comparison ($n = 5$ to $20$). Plots execution time on a logarithmic scale, highlighting the exponential time growth of Brute Force ($O(2^n)$) compared to Dynamic Programming ($O(nW)$) and the Greedy heuristic ($O(n \log n)$).](results/plot_shared_runtime.png)
 
-![**Figure 2**: Large Runtime Comparison ($n = 50$ to $1000$)](results/plot_large_runtime.png)
+![**Figure 2**: Large Runtime Comparison ($n = 50$ to $1000$). Plots execution time on a linear scale, illustrating the pseudo-polynomial quadratic growth of Dynamic Programming (where capacity $W$ scales as $10n$) against the near-instantaneous scaling of the Greedy heuristic.](results/plot_large_runtime.png)
 
-![**Figure 3**: Greedy Solution Quality by Correlation Family](results/plot_kplib_ratios.png)
+![**Figure 3**: Greedy Solution Quality by Correlation Family. Compares the average, minimum, and maximum approximation ratios of Greedy on kplib datasets, demonstrating performance degradation on strongly correlated instances (down to $95.68\%$).](results/plot_kplib_ratios.png)
+
+![**Figure 4**: DP Feasibility Boundary on Jooken Instances. Scatter plot of item count $n$ versus capacity $W$, indicating where DP executed successfully (capacity $10^6$) versus where it was skipped due to OOM memory constraints (capacity $\ge 10^8$).](results/plot_dp_feasibility.png)
+
+![**Figure 5**: Greedy Runtime Scalability on Jooken Instances. Displays Greedy runtime against $n$ across capacities $10^6$ to $10^{10}$, proving that knapsack capacity has zero computational impact on Greedy efficiency.](results/plot_greedy_jooken_runtime.png)
+
+![**Figure 6**: Distribution of Greedy Approximation Ratios. Box-and-swarm plot of Greedy performance across all benchmark groups, revealing the distribution spread, median accuracy, and worst-case outliers.](results/plot_greedy_ratios_distribution.png)
 :::
 
 ---
 
 ## 7. Discussion and Analysis
-* **Brute Force**: Serves as a correctness baseline; limited by its $O(2^n)$ exponential complexity.
-* **Dynamic Programming**: Best for absolute optimality when capacity $W$ is small to moderate. Suffers from high computational and memory $O(W)$ limits when $W \ge 10^8$.
-* **Greedy Heuristic**: Runs in $O(n \log n)$ time with $O(n)$ space. Highly scalable, making it the practical choice for real-time or massive instances, though susceptible to correlation-induced sub-optimality.
+
+### 7.1 Empirical Analysis of Visualization Figures
+* **Figure 1 & 2 (Runtime Scaling):** Confirm the theoretical time complexities. Brute Force grows exponentially, DP scales quadratically when capacity $W \propto n$, and Greedy remains practically constant at less than 200 microseconds.
+* **Figure 3 (Greedy Correlation Sensitivity):** Shows Greedy’s approximation quality degrading specifically under the `02StronglyCorrelated` family. When profit is tightly coupled with weight, greedy ratio-sort choices become highly sub-optimal as item boundaries prevent full utilization of capacity.
+* **Figure 4 (DP Feasibility Boundary):** Illustrates the hard limits of pseudo-polynomial algorithms. While DP is highly efficient at lower capacities (capacity $W = 10^6$), scaling $W$ to $10^8$ and $10^{10}$ triggers safety limits (or memory exhaustion). This scatter plot reveals that DP's feasibility is strictly dependent on the capacity parameter rather than the input size $n$.
+* **Figure 5 (Greedy Capacity Independence):** Demonstrates that Greedy's runtime remains extremely low (under 250 microseconds) across all capacity scales ($10^6$ to $10^{10}$). The three lines representing different capacity scales overlap closely, validating that Greedy's performance depends entirely on sorting the $n$ items and scanning them, completely decoupled from capacity $W$.
+* **Figure 6 (Approximation Ratio Distributions):** A combined box-and-swarm plot displaying the distribution of greedy ratios. We observe that on `kplib` uncorrelated, weakly-correlated, and Jooken hard instances, Greedy maintains a high-quality median approximation ratio near 100% with narrow spreads. However, strongly-correlated instances have a significantly larger variance and a median drop (down to $95.68\%$), showing that correlation structure is the primary driver of greedy sub-optimality.
+
+### 7.2 Algorithm Use Cases and Real-World Applications
+
+#### Brute Force (Exhaustive Recursion)
+* **Real-World Applications:** Simple embedded controllers with minimal code footprints, correctness test harnesses, small-scale configuration tasks (e.g., choosing from a menu of less than 15 items).
+* **When to Use:** When $n \le 20$, memory overhead must be strictly zero, and optimal solutions are mandatory. It serves primarily as a correctness validator for complex algorithms.
+
+#### Dynamic Programming (Bottom-Up Tabulation)
+* **Real-World Applications:** Cloud computing resource allocation (bundling containers under fixed memory limits), fixed-budget marketing campaigns, cargo container packing (with moderate integer weights), and cryptographic knapsack cryptosystems.
+* **When to Use:** When absolute optimality is required and the knapsack capacity $W$ is a reasonably small integer (typically $W < 10^7$). It is not suitable when capacity is an arbitrary float or an extremely large value.
+
+#### Greedy Heuristic (Ratio Sorting)
+* **Real-World Applications:** High-frequency ad bidding platforms, packet routing/switching under network bandwidth constraints, real-time cargo manifest loading, metaheuristic seed initializations, and large-scale cargo logistics where float capacities are present.
+* **When to Use:** When $n$ is very large ($n \ge 1000$), capacity is massive or non-integral, sub-millisecond execution is required, and a bounded deviation from optimality (typically $< 2\%$-$5\%$) is acceptable.
 
 ---
 
-## 8. Conclusion
-We evaluated three Knapsack algorithms across synthetic, standard (`kplib`), and large-scale hard benchmarks. Our analysis shows that Brute Force is limited to $n \le 20$, Dynamic Programming is bound by memory when $W \ge 10^8$, and Greedy heuristics scale near-instantly but yield sub-optimal results ($95\%$-$99\%$) depending on dataset correlation. Algorithm selection must balance constraints between optimality requirements and memory budgets.
+## 8. Conclusion and Decision Guide
+We evaluated three Knapsack algorithms across synthetic, standard (`kplib`), and large-scale hard benchmarks. Our analysis shows that Brute Force is limited to $n \le 20$, Dynamic Programming is bound by memory when $W \ge 10^8$, and Greedy heuristics scale near-instantly but yield sub-optimal results ($95\%$-$99\%$) depending on dataset correlation. 
+
+To assist developers in selecting the correct algorithm, the following decision matrix can be utilized:
+
+| Requirement | Recommended Algorithm | Rationale / Key Constraint |
+| :--- | :--- | :--- |
+| **$n \le 20$, absolute optimality** | Brute Force | Simplest to implement, minimal code size, runs in microseconds for tiny $n$. |
+| **$n > 20$, $W < 10^7$, absolute optimality** | Dynamic Programming | Guaranteed 100% optimal solutions in pseudo-polynomial $O(nW)$ time. |
+| **$W \ge 10^8$, absolute optimality** | Exact Solvers (MIP / Branch-and-Bound) | DP tabulation fails due to memory capacity limits; requires pruning search trees. |
+| **$n \ge 1000$ or real-time / sub-millisecond** | Greedy Heuristic | Highly scalable $O(n \log n)$ time complexity, completely independent of capacity $W$. |
+| **Strongly correlated data, high quality needed** | Dynamic Programming (if feasible) | Greedy heuristic performs worst under strong correlations, dropping down to $95\%$ accuracy. |
 
 ---
 
